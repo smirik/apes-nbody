@@ -16,11 +16,11 @@ class Vector < Array
     self
   end
   def *(a)
-    if a.class == Vector              # в случае векторного произведения
+    if a.class == Vector             
       product = 0
       self.each_index{|k| product += self[k]*a[k]}
     else
-      product = Vector.new           # скалярное произведение
+      product = Vector.new           
       self.each_index{|k| product[k] = self[k]*a}
     end
     product
@@ -29,7 +29,7 @@ class Vector < Array
     if a.class == Vector
       raise
     else
-      quotient = Vector.new           # скалярное
+      quotient = Vector.new           
       self.each_index{|k| quotient[k] = self[k]/a}
     end
     quotient
@@ -50,4 +50,14 @@ class Array
   def to_v
     Vector[*self]
   end
+
+  def / len
+    a = []
+    each_with_index do |x,i|
+      a << [] if i % len == 0
+      a.last << x
+    end
+    a
+  end
+  
 end

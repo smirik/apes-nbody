@@ -185,7 +185,9 @@ class Nbody
   def simple_read
     n = gets.to_i
     @time      = gets.to_f
+    @time      = CONFIG['integration']['start_time'] if (@time == 0)
     @stop_time = gets.to_f
+    @stop_time = CONFIG['integration']['stop_time']  if (@stop_time == 0)
     for i in 0...n
       @body[i] = Body.new
       @body[i].simple_read
