@@ -12,4 +12,6 @@ ephemeris/tools/nasa/headcmp
 ephemeris/tools/nasa/testeph
 ephemeris/tools/nasa/vtransit
 ephemeris/tools/nasa/*.dSYM
+ephemeris/tools/nasa/*.o
+ephemeris/tools/nasa/asc2eph
 
