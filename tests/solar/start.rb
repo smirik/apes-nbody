@@ -31,3 +31,6 @@ puts "Generate diff"
 methods.each do |method|
   analyze = `ruby #{path}/analyze.rb --method=#{method} > #{path}/result_#{method}.dat`
 end
+
+puts "Restore default config"
+`mv config/config.yml.default config/config.yml`
