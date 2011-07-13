@@ -1,46 +1,57 @@
---- 
-integration: 
-  methods: 
-  - rk4
-  - hermite
-  - yo8
-  - ms8
-  step: 1
-  method: yo8
-  stop_time: 2455101.5
-  output_time: 2462203.5
+integration:
+  methods:
+    - rk4
+    - hermite
+    - yo8
+    - ms8
+    
   integrator: rk4
+  
+  # time
+  start_time:  2454102.5
+  stop_time:   2455101.5
+  #stop_time:   2462273.5
+  #stop_time:   2454201.5
+  output_time: 2462203.5
+  
+  # step
+  step: 1
   number_of_planets: 9
-  start_time: 2454102.5
-tests: 
-  solar: 
-    path: tests/solar
-constants: 
-  planets_names: 
-  - "0.0"
-  - Mercury
-  - Venus
-  - Earth
-  - Mars
-  - Jupiter
-  - Saturn
-  - Uranus
-  - Neptune
-  - Pluto
-  planets: 
-  - 0.0
-  - 1.66013679527193e-07
-  - 2.44783893885595e-06
-  - 3.00316726157559e-06
-  - 3.22715144505387e-06
-  - 0.000954502036096727
-  - 0.000285787542104469
-  - 4.36378261525313e-05
-  - 5.14956512995827e-05
-  - 6.56075612085868e-09
-  u: 0.000295912208285591
-ephemeris: 
-  datas_path: ephemeris/data
+  
+ephemeris:
   type: de405
-  file: unxp2000.405
   execute_path: ephemeris/tools
+  datas_path:   ephemeris/data
+  file:         unxp2000.405
+  
+constants:
+  u: 0.0002959122082855911025
+
+  planets:
+    - 0.0
+    - 1.66013679527193e-07
+    - 2.44783893885595e-06
+    - 3.00316726157559e-06
+    - 3.22715144505387e-06
+    - 0.000954502036096727
+    - 0.000285787542104469
+    - 4.36378261525313e-05
+    - 5.14956512995827e-05
+    - 6.56075612085868e-09
+  
+  planets_names:
+    - "0.0"
+    - Mercury
+    - Venus
+    - Earth
+    - Mars
+    - Jupiter
+    - Saturn
+    - Uranus
+    - Neptune
+    - Pluto
+    
+tests:
+  solar:
+    path: tests/solar 
+
