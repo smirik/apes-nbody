@@ -2,4 +2,14 @@ result
 *.png
 tests/solar/*.dat
 config/config.yml
+ephemeris/tools/nasa/asc2eph 
+ephemeris/tools/nasa/eph2asc
+ephemeris/tools/nasa/eph2eph
+ephemeris/tools/nasa/ephcmp
+ephemeris/tools/nasa/ephcoeff
+ephemeris/tools/nasa/ephem
+ephemeris/tools/nasa/headcmp
+ephemeris/tools/nasa/testeph
+ephemeris/tools/nasa/vtransit
+ephemeris/tools/nasa/*.dSYM
 
