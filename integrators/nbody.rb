@@ -20,10 +20,9 @@ class Nbody
     @nsteps = 0
     t_end = @stop_time - 0.5*dt
     
-    puts @dt, @time, t_end
     while @time < t_end
       send(integration_method)
-      self.pp
+      self.gp
       @time += dt
       @nsteps += 1
     end
@@ -161,6 +160,11 @@ class Nbody
     end
   end
 
+  def gp                           
+    print @time.to_s+";"
+    @body.each{|b| b.gp}
+    print "\n"
+  end
 
   def pp                           
     print @time, "\n"

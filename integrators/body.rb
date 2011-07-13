@@ -17,14 +17,14 @@ class Body
   end
 
   def acc(body_array)
-    u = CONFIG['constants']['u']
-    a = @pos*0                              # null vector of the correct length
+    u = CONFIG['constants']['u'].to_f
+    a = -@pos*(1.0+@mass)/(@pos.module**3)*u
     body_array.each do |b|
       unless b == self
-        r = b.pos - @pos
-        r2 = r*r
-        r3 = r2*sqrt(r2)
-        a += r*(b.mass/r3)*u
+        r   = b.pos - @pos
+        r3  = r.module**3
+        ri3 = b.pos.module**3
+        a += r*(b.mass*u/r3)-b.pos*(b.mass*u/ri3)
       end
     end
     a
@@ -56,7 +56,12 @@ class Body
     @pos.each{|x| printf("%24.16e", x)};
     @vel.each{|x| printf("%24.16e", x)}; print "\n"
   end
-
+  
+  def gp
+    @pos.each{|x| printf("%24.16e;", x)};
+    @vel.each{|x| printf("%24.16e;", x)};
+  end
+  
   def ppx(body_array)         
     STDERR.print to_s + "   acc = " + acc(body_array).join(", ") + "\n"
   end
