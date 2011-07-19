@@ -1,6 +1,7 @@
 result
 *.png
 tests/solar/*.dat
+tests/twobody/*.dat
 config/config.yml
 ephemeris/tools/nasa/asc2eph 
 ephemeris/tools/nasa/eph2asc
