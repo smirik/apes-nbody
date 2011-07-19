@@ -16,4 +16,5 @@ ephemeris/tools/nasa/*.dSYM
 ephemeris/tools/nasa/*.o
 ephemeris/tools/nasa/asc2eph
 output
-
+vendor
+vendor/mercury6

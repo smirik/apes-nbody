@@ -1,0 +1,3 @@
+[submodule "vendor/mercury6"]
+	path = vendor/mercury6
+	url = git@github.com:smirik/mercury.git
