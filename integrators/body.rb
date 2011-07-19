@@ -22,9 +22,7 @@ class Body
     body_array.each do |b|
       unless b == self
         r   = b.pos - @pos
-        r3  = r.module**3
-        ri3 = b.pos.module**3
-        a += r*(b.mass*u/r3)-b.pos*(b.mass*u/ri3)
+        a += r*(b.mass*u/r.module**3)-b.pos*(b.mass*u/b.pos.module**3)
       end
     end
     a
@@ -78,6 +76,16 @@ class Body
     @pos = gets.split.map{|x| x.to_f}.to_v
     @vel = gets.split.map{|x| x.to_f}.to_v
     e_init
+  end
+  
+  def to_a
+    [@mass, @pos, @vel]
+  end
+  
+  def from_a(a)
+    @mass = a[0]
+    @pos  = a[1]
+    @vel  = a[2]
   end
   
   def ekin                        # kinetic energy

@@ -4,10 +4,11 @@ require 'integrators/body.rb'
 
 class Nbody
 
-  attr_accessor :time, :stop_time, :body 
+  attr_accessor :time, :stop_time, :body, :le
 
   def initialize
     @body = []
+    @le   = CONFIG['integration']['error']
   end      
   
   def evolve(integration_method, dt)
@@ -15,10 +16,30 @@ class Nbody
     @nsteps = 0
     t_end = @stop_time - 0.5*dt
     while @time < t_end
+      # Calculate with step dt
+      bcopy = Array.new # save old value
+      @body.each {|b| bcopy.push(b.to_a) }
       send(integration_method)
-      self.gp
-      @time += dt
-      @nsteps += 1
+      # Save calculated value to find local error
+      res = Array.new
+      @body.each {|b| res.push([b.pos, b.vel])}
+      
+      # Calculate with step dt/2
+      @body.each_with_index {|b, key| b.from_a(bcopy[key]) }
+      @dt = @dt/2
+      send(integration_method)
+      send(integration_method)
+      le = self.local_error(res)
+      
+      if (le[0] < @le)
+        @dt = @dt*4
+        @time += dt
+        @nsteps += 1
+        self.gp
+      else
+        # nothing
+      end
+      
     end
   end
 
@@ -182,6 +203,16 @@ class Nbody
       @body[i] = Body.new
       @body[i].simple_read
     end
+  end
+  
+  def local_error(data_array)
+    diff = []
+    data_array.each_with_index do |data, key|
+      pos  = data[0].to_v
+      vel  = data[1].to_v
+      diff.push((pos - @body[key].pos).module)
+    end
+    diff
   end
 
 end
