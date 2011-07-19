@@ -16,6 +16,7 @@ def integrate()
   nb = Nbody.new
   nb.time = start_time
   nb.simple_read
+
   nb.evolve(method, step)
   
 end

@@ -1,6 +1,6 @@
 class Body
 
-  attr_accessor :mass, :pos, :vel, :time, :name
+  attr_accessor :mass, :pos, :vel, :time, :name, :e0
 
   def initialize(mass = 0, pos = Vector[0,0,0], vel = Vector[0,0,0], name = false)
     @mass, @pos, @vel, @name = mass, pos, vel, name
@@ -77,6 +77,24 @@ class Body
     @mass = gets.to_f
     @pos = gets.split.map{|x| x.to_f}.to_v
     @vel = gets.split.map{|x| x.to_f}.to_v
+    e_init
+  end
+  
+  def ekin                        # kinetic energy
+    0.5*(@vel*@vel)               # per unit of reduced mass
+  end
+
+  def epot                        # potential energy
+    -@mass/@pos.module
+  end
+
+  def e_init                      # initial total energy
+    @e0 = ekin + epot             # per unit of reduced mass
+  end
+
+  def ediff
+    etot = ekin + epot
+    diff = (etot - @e0)/@e0
   end
 
 end

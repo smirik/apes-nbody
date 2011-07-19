@@ -5,21 +5,15 @@ require 'integrators/body.rb'
 class Nbody
 
   attr_accessor :time, :stop_time, :body 
-  attr_accessor :ephemeris
 
   def initialize
     @body = []
   end      
   
-  def set_ephemeris(ephemeris)
-    @ephemeris = ephemeris
-  end
-
   def evolve(integration_method, dt)
     @dt = dt                                                                 #1
     @nsteps = 0
     t_end = @stop_time - 0.5*dt
-    
     while @time < t_end
       send(integration_method)
       self.gp
@@ -162,22 +156,18 @@ class Nbody
 
   def gp                           
     print @time.to_s+";"
-    @body.each{|b| b.gp}
+    if (CONFIG['integration']['debug'] == 1)
+      sum = 0;
+      @body.each{|b| sum += b.ediff}
+      print "#{sum};"
+      @body.each{|b| b.gp}
+    else
+      @body.each{|b| b.gp}
+    end
     print "\n"
   end
 
-  def pp                           
-    print @time, "\n"
-    @body.each{|b| b.pp}
-  end
-
-  def ppx                          
-    print "     N = ", @body.size, "\n"
-    print "  time = ", @time, "\n"
-    @body.each{|b| b.ppx(@body)}
-  end
-
-  def simple_print
+  def pp
     printf("%24.16e ", @time)
     @body.each{|b| b.simple_print}
   end

@@ -15,8 +15,10 @@ integration:
   output_time: 2462203.5
   
   # step
-  step: 1
+  step: 10
   number_of_planets: 9
+
+  debug: 1
   
 ephemeris:
   type: de405
@@ -52,6 +54,8 @@ constants:
     - Pluto
     
 tests:
+  path:   tests
   solar:
     path: tests/solar 
-
+  twobody:
+    path: tests/twobody
