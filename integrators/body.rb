@@ -4,6 +4,7 @@ class Body
 
   def initialize(mass = 0, pos = Vector[0,0,0], vel = Vector[0,0,0], name = false)
     @mass, @pos, @vel, @name = mass, pos, vel, name
+    @e0 = 0
   end 
   
   def set_time(time)
@@ -102,7 +103,7 @@ class Body
 
   def ediff
     etot = ekin + epot
-    diff = (etot - @e0)/@e0
+    diff = (etot - @e0)
   end
 
 end

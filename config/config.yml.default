@@ -8,16 +8,22 @@ integration:
   integrator: rk4
   
   # time
-  start_time:  2454102.5
-  stop_time:   2455101.5
+  start_time:  2451000.5
+  stop_time:   2451500.5
   #stop_time:   2462273.5
   #stop_time:   2454201.5
-  output_time: 2462203.5
   
   # step
-  step: 10
+  step:  1.0
+  error: 1.0e-8
+  
   number_of_planets: 9
 
+  output:
+    format:   cartesian
+    time:     2462203.5
+    interval: 1
+    
   debug: 1
   
 ephemeris:
@@ -54,8 +60,10 @@ constants:
     - Pluto
     
 tests:
-  path:   tests
+  path:          tests
   solar:
-    path: tests/solar 
+    path:        tests/solar 
+    output_path: output/solar
   twobody:
-    path: tests/twobody
+    path:        tests/twobody
+    output_path: output/twobody

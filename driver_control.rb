@@ -1,5 +1,5 @@
 require 'yaml'
-require "integrators/nbody.rb"
+require "integrators/nbody_step_control.rb"
 
 CONFIG = YAML.load_file('config/config.yml')
 
@@ -12,7 +12,8 @@ def integrate
 
   # Initialize initial datas
   eps = 0
-  nb = Nbody.new
+  
+  nb = NbodyStepControl.new
   nb.time = @start_time
   nb.simple_read
   nb.evolve(@method, @step)

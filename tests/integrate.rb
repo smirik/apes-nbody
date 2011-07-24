@@ -8,7 +8,7 @@ def integrate()
   start_time = CONFIG['integration']['start_time']
   stop_time  = CONFIG['integration']['stop_time']
   step       = CONFIG['integration']['step'].to_f  
-  method     = CONFIG['integration']['method'].to_s
+  method     = CONFIG['integration']['integrator'].to_s
 
   # Initialize initial datas
   eps = 0

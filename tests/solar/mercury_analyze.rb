@@ -8,24 +8,44 @@ planets_names     = CONFIG['constants']['planets_names'].to_a
 path              = CONFIG['tests']['solar']['output_path']
 number_of_planets = CONFIG['integration']['number_of_planets']
 
-def analyze(nbody_file)
+def analyze_mercury()
   planets_names     = CONFIG['constants']['planets_names'].to_a
+  planets_names.delete_at(0)
+  planets_names_b = planets_names.clone
+  planets_names[2]   = "Earthmoo"
+  planets_names_b[2] = "Earth"
   path              = CONFIG['tests']['solar']['output_path']
   number_of_planets = CONFIG['integration']['number_of_planets']
 
-  planets_names.delete_at(0)
 
   # Open planets files
   planets_f = Array.new
-  planets_names.each do |planet|
-    planets_f.push(File.open(path+'/'+planet+'.dat', 'r'))
+  planets_e = Array.new
+  
+  planets_names.each_with_index do |planet, key|
+    planets_f.push(File.open('vendor/mercury6'+'/'+planet.upcase+'.AEI', 'r'))
+    planets_e.push(File.open('output/solar'+'/'+planets_names_b[key].capitalize+'.dat', 'r'))
+  end
+  
+  # Header
+  planets_f.each do |file|
+    5.times do |i|
+      file.gets
+    end
   end
 
   counter = 0
-  File.open(nbody_file, 'r').each do |line|
+  File.open('output/solar'+'/'+planets_names_b[0].capitalize+'.dat', 'r').each do |line|
     # Split line into float values
-    data = line.split(';').map{|elem| elem.strip.to_f }
-    data.delete_at(0)
+
+    #data1 = line.split(';').map{|elem| elem.strip.to_f }
+    #data.delete_at(0)
+    
+    for i in 1..(planets_names_b.count-1)
+      line = line + planets_e[i].gets
+    end
+    data = line.gsub("\n", '').split(';').map{|elem| elem.strip.to_f }
+    
     # 0-5 — Mercury (x,y,z,vx,vy,vz), 6-11 — Venus e.t.c.
     count = -1
     diff_x = Array.new
@@ -33,7 +53,9 @@ def analyze(nbody_file)
     planets_f.each do |file|
       count+=1
       # f_data, p_data — arrays of 2 vectors: position and velocity
-      f_data = (file.gets.split(';').map{|elem| elem.strip.to_f}/3).map{|elem| elem.to_v}
+      f_data = file.gets.split(' ')
+      f_data.delete_at(0)
+      f_data = (f_data.map{|elem| elem.strip.to_f}/3).map{|elem| elem.to_v}
       p_data = []
       6.times do |i|
         p_data.push(data[count*6+i])
@@ -61,8 +83,4 @@ def analyze(nbody_file)
 
 end
 
-method = get_command_line_argument('method', false)
-raise unless method
-
-nbody_file = path+'/'+method+'.dat'
-analyze(nbody_file)
+analyze_mercury()

@@ -1,45 +1,34 @@
 include Math
 require "integrators/vector.rb"
 require 'integrators/body.rb'
+require 'integrators/nbody_output.rb'
+require 'integrators/nbody_step_control.rb'
 
 class Nbody
 
-  attr_accessor :time, :stop_time, :body, :le
+  attr_accessor :time, :stop_time, :body
+  attr_accessor :format, :interval
+  attr_accessor :e_total
 
   def initialize
-    @body = []
-    @le   = CONFIG['integration']['error']
+    @body     = []
+    @le       = CONFIG['integration']['error']
+    @format   = CONFIG['integration']['output']['format']
+    @interval = CONFIG['integration']['output']['interval']
+    @e_total  = []
   end      
   
   def evolve(integration_method, dt)
-    @dt = dt                                                                 #1
+    @dt     = dt                                                                 #1
     @nsteps = 0
-    t_end = @stop_time - 0.5*dt
+    t_end   = @stop_time - 0.5*dt
     while @time < t_end
-      # Calculate with step dt
-      bcopy = Array.new # save old value
-      @body.each {|b| bcopy.push(b.to_a) }
       send(integration_method)
-      # Save calculated value to find local error
-      res = Array.new
-      @body.each {|b| res.push([b.pos, b.vel])}
-      
-      # Calculate with step dt/2
-      @body.each_with_index {|b, key| b.from_a(bcopy[key]) }
-      @dt = @dt/2
-      send(integration_method)
-      send(integration_method)
-      le = self.local_error(res)
-      
-      if (le[0] < @le)
-        @dt = @dt*4
-        @time += dt
-        @nsteps += 1
+      @time += dt
+      @nsteps += 1
+      if ((@nsteps % @interval) == 0)
         self.gp
-      else
-        # nothing
       end
-      
     end
   end
 
@@ -175,16 +164,10 @@ class Nbody
     end
   end
 
-  def gp                           
+  def gp
     print @time.to_s+";"
-    if (CONFIG['integration']['debug'] == 1)
-      sum = 0;
-      @body.each{|b| sum += b.ediff}
-      print "#{sum};"
-      @body.each{|b| b.gp}
-    else
-      @body.each{|b| b.gp}
-    end
+    eval(" self."+@format)
+    self.energies
     print "\n"
   end
 

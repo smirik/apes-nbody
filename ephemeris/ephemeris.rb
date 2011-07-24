@@ -16,7 +16,7 @@ class Ephemeris
   
   def getPosVel(start_time, end_time, step = 1, target = 3, center = 11)
     end_time += step
-    coords = `#{@eph_path}/ephem #{@datas_path}/#{@eph_file} #{start_time} #{end_time} #{step} #{target} #{center} > tests/solar/#{@planets_names[target]}.dat;`
+    coords = `#{@eph_path}/ephem #{@datas_path}/#{@eph_file} #{start_time} #{end_time} #{step} #{target} #{center} > output/solar/#{@planets_names[target]}.dat;`
   end
   
   def getPlanets()
